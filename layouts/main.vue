@@ -1,19 +1,10 @@
 <template>
   <div>
-    <default-header />
+    <header>Header section</header>
+    <div>Banner</div>
     <nuxt />
   </div>
 </template>
-
-<script>
-import DefaultHeader from '@/components/Header/default';
-
-export default {
-  components: {
-    DefaultHeader
-  },
-}
-</script>
 
 <style>
 html {
