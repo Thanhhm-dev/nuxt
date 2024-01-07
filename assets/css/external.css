@@ -7,3 +7,7 @@ ul {
     list-style: none;
   }
 }
+
+.nuxt-link-exact-active {
+  color: burlywood;
+}
