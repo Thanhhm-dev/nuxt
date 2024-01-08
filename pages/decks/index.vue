@@ -20,76 +20,36 @@
       </ul>
 
       <v-modal name="test">
-        <form action="">
-          <div class="form_group">
-            <label for="">Name</label>
-            <input class="form_control" type="text" />
-          </div>
-          <div class="form_group">
-            <label for="">Description</label>
-            <textarea class="form_control" cols="30" rows="10"></textarea>
-          </div>
-          <div class="form_group">
-            <label for="">Thumnail</label>
-            <div>
-              <input type="file" />
-            </div>
-          </div>
-          <button type="button" class="btn btn_success" @click.prevent="closeModal()">
-            Submit
-          </button>
-          <button type="button" class="btn btn_warning" @click.prevent="closeModal()">
-            Close
-          </button>
-        </form>
+        <deck-form @submit="onSubmit" modalName="test" />
       </v-modal>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios"
 import DeckList from "~/components/Decks/list.vue";
+import DeckForm from "~/components/Decks/form.vue";
 
 export default {
   components: {
-    DeckList
+    DeckList,
+    DeckForm
   },
-  fetch(context) {
+  asyncData(context) {
     return new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          decks: [
-            {
-              id: 1,
-              name: "Learn English",
-              description: "Learn English description",
-              thumbnail:
-                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-            },
-            {
-              id: 2,
-              name: "Learn English",
-              description: "Learn English description",
-              thumbnail:
-                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-            },
-            {
-              id: 3,
-              name: "Learn English",
-              description: "Learn English description",
-              thumbnail:
-                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-            },
-          ],
-        });
+      axios.get('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json').then(res => {
+        const arr = [];
+        for (const key in res.data) {
+          arr.push({...res.data[key], id: key});
+        }
+        context.store.dispatch('storeDecks/setDecks', arr);
+        resolve();
+      }).catch((e) => {
+        context.error(e);
         reject(new Error());
-      }, 1000);
-    }).then(data => {
-      context.store.dispatch('storeDecks/setDecks', data.decks);
-    }).catch((e) => {
-      context.error(e);
-    });
+      });
+    })
   },
   computed: {
     decks() {
@@ -103,6 +63,14 @@ export default {
     closeModal() {
       this.$modal.close({ name: "test" });
     },
+    onSubmit(data) {
+      axios.post('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json', data)
+      .then((data) => {
+        console.log(data);
+      }).catch(e => {
+        console.log(e);
+      })
+    }
   },
 };
 </script>
