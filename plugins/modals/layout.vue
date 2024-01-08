@@ -73,6 +73,7 @@ export default {
     padding-bottom: 10px;
     &__body {
       background: #fff;
+      padding: 25px;
     }
   }
 </style>
