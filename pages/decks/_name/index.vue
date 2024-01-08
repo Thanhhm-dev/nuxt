@@ -2,11 +2,14 @@
   <section>
     <div class="r">
       <div class="ct text_center">
-        <h3>Deck {{ deck.name }}</h3>
+        <h3>Deck {{ $route.params.name }} has name: {{ deck.name }}</h3>
         <div class="tools">
           <button class="btn btn_success">Start</button>
-          <button class="btn btn_primary" @click.prevent="openModal()">
+          <button class="btn btn_primary" @click.prevent="openModal('createCard')">
             Create card
+          </button>
+          <button class="btn btn_info" @click.prevent="openModal('editDeck')">
+            Edit deck
           </button>
         </div>
       </div>
@@ -20,7 +23,7 @@
         :keyword="item.keyword"
       />
 
-      <v-modal name="child">
+      <v-modal name="createCard">
         <form action="">
           <div class="form_group">
             <label for="">Name</label>
@@ -44,35 +47,38 @@
           </button>
         </form>
       </v-modal>
+
+      <v-modal name="editDeck">
+        <deck-form :deck="deck" @submit="onSubmit" modalName="editDeck" />
+      </v-modal>
     </div>
   </section>
 </template>
 
 <script>
+import axios from "axios";
 import cards from "~/components/Cards/list.vue";
+import DeckForm from "~/components/Decks/form.vue";
 
 export default {
   components: {
     cards,
+    DeckForm
   },
   asyncData(context) {
-    return new Promise((resolve, reject) => {
-      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-      setTimeout(() => {
-        resolve({
-          deck: {
-            name: context.params.name,
-            keyword: context.params.keyword,
-            picture: context.params.picture,
-          },
-        });
-      }, 1000);
-      reject(new Error());
-    }).then((data) => {
-      return data
-    }).catch((err) => {
-      context.error(err);
-    });
+    return axios
+      .get(
+        `https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/${context.params.name}.json`
+      )
+      .then((res) => {
+        console.log(res.data)
+        return {
+          deck: res.data,
+        };
+      })
+      .catch((e) => {
+        context.error(e);
+      });
   },
   data() {
     return {
@@ -104,16 +110,21 @@ export default {
       ],
     };
   },
-  validate(content) {
-    return /^[0-9]{0,9}$/.test(content.params.name);
-  },
   methods: {
-    openModal() {
-      this.$modal.open({ name: "child" });
+    openModal(nameModal) {
+      this.$modal.open({ name: nameModal });
     },
-    closeModal() {
-      this.$modal.close({ name: "child" });
+    closeModal(nameModal) {
+      this.$modal.close({ name: nameModal });
     },
+    onSubmit(data) {
+      axios.put(`https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/${this.$route.params.name}.json`, data)
+      .then((data) => {
+        console.log(data);
+      }).catch(e => {
+        console.log(e);
+      })
+    }
   },
 };
 </script>
