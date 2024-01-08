@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="ct">
-      <h3>list</h3>
+      <div class="d_flex justify_content_between my_3">
+        <h3>list</h3>
+        <button type="button" class="btn btn_success" @click.prevent="openModal()">Create</button>
+      </div>
+
       <ul class="decks-list">
         <li>
           <nuxt-link to="/decks/1">
@@ -37,20 +41,22 @@
           </nuxt-link>
         </li>
       </ul>
+
+      <v-modal name="test">test
+        <button class="btn btn_danget" @click.prevent="closeModal()">Close</button>
+      </v-modal>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      deckName: '1'
-    }
-  },
   methods: {
-    redirectDecks() {
-      this.$router.push(`/decks/${this.deckName}`)
+    openModal() {
+      this.$modal.open({ name: "test" });
+    },
+    closeModal() {
+      this.$modal.close({ name: "test" });
     }
   }
 }
