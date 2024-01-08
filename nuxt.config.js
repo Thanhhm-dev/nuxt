@@ -63,5 +63,9 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  env: {
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseApiUrl: process.env.BASE_API_URL || 'https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json'
   }
 }
