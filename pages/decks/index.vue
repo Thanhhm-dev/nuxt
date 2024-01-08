@@ -39,22 +39,20 @@ export default {
   asyncData(context) {
     return new Promise((resolve, reject) => {
       axios.get('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json').then(res => {
-        const arr = [];
+        const decks = [];
         for (const key in res.data) {
-          arr.push({...res.data[key], id: key});
+          decks.push({...res.data[key], id: key});
         }
-        context.store.dispatch('storeDecks/setDecks', arr);
-        resolve();
+        // asyncData create variable decks if set it in resolve
+        resolve({decks});
       }).catch((e) => {
         context.error(e);
         reject(new Error());
       });
     })
   },
-  computed: {
-    decks() {
-      return this.$store.state.storeDecks.decks;
-    }
+  created() {
+    this.$store.dispatch('storeDecks/setDecks', this.decks);
   },
   methods: {
     openModal() {
@@ -65,8 +63,11 @@ export default {
     },
     onSubmit(data) {
       axios.post('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json', data)
-      .then((data) => {
-        console.log(data);
+      .then(() => {
+        const tmp = [...this.$store.state.storeDecks.decks]
+        tmp.push(data);
+        this.$store.dispatch('storeDecks/setDecks', tmp);
+        this.closeModal();
       }).catch(e => {
         console.log(e);
       })
