@@ -54,29 +54,35 @@ export default {
   components: {
     DeckList,
   },
-  data() {
-    return {
-      decks: [
-        {
-          id: 1,
-          name: "Learn English",
-          description: "Learn English description",
-          thumbnail: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-        },
-        {
-          id: 2,
-          name: "Learn English",
-          description: "Learn English description",
-          thumbnail: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-        },
-        {
-          id: 3,
-          name: "Learn English",
-          description: "Learn English description",
-          thumbnail: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-        },
-      ],
-    };
+  asyncData(context, callback) {
+    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+    setTimeout(() => {
+      callback(null, {
+        decks: [
+          {
+            id: 1,
+            name: "Learn English",
+            description: "Learn English description",
+            thumbnail:
+              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+          },
+          {
+            id: 2,
+            name: "Learn English",
+            description: "Learn English description",
+            thumbnail:
+              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+          },
+          {
+            id: 3,
+            name: "Learn English",
+            description: "Learn English description",
+            thumbnail:
+              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+          },
+        ],
+      });
+    }, 3000);
   },
   methods: {
     openModal() {
