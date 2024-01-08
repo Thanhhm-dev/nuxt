@@ -4,7 +4,7 @@
       <div class="ct text_center">
         <div class="tools">
           <button class="btn btn_success">Start</button>
-          <button class="btn btn_primary">Create card</button>
+          <button class="btn btn_primary" @click.prevent="openModal()">Create card</button>
         </div>
       </div>
     </div>
@@ -50,6 +50,32 @@
           </div>
         </div>
       </div>
+
+      <v-modal name="child"
+        >
+        <form action="">
+          <div class="form_group">
+            <label for="">Name</label>
+            <input class="form_control" type="text" />
+          </div>
+          <div class="form_group">
+            <label for="">Description</label>
+            <textarea class="form_control" name="" id="" cols="30" rows="10"></textarea>
+          </div>
+          <div class="form_group">
+            <label for="">Thumnail</label>
+            <div>
+              <input type="file" />
+            </div>
+          </div>
+          <button type="button" class="btn btn_success" @click.prevent="closeModal()">
+            Submit
+          </button>
+          <button type="button" class="btn btn_warning" @click.prevent="closeModal()">
+            Close
+          </button>
+        </form>
+      </v-modal>
     </div>
   </section>
 </template>
@@ -57,9 +83,16 @@
 <script>
 export default {
   validate(content) {
-    console.log(content);
     return /^[0-9]{0,9}$/.test(content.params.name);
-  }
+  },
+  methods: {
+    openModal() {
+      this.$modal.open({ name: "child" });
+    },
+    closeModal() {
+      this.$modal.close({ name: "child" });
+    },
+  },
 }
 </script>
 
