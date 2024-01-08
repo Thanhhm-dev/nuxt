@@ -110,6 +110,11 @@ export default {
       ],
     };
   },
+  head() {
+    return {
+      title: `Head id is ${this.$route.params.name}`
+    }
+  },
   methods: {
     openModal(nameModal) {
       this.$modal.open({ name: nameModal });

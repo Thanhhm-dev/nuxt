@@ -54,6 +54,9 @@ export default {
   created() {
     this.$store.dispatch('storeDecks/setDecks', this.decks);
   },
+  head: {
+    title: "Page decks"
+  },
   methods: {
     openModal() {
       this.$modal.open({ name: "test" });
