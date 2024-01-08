@@ -10,46 +10,7 @@
     </div>
     <hr class="">
     <div class="r">
-      <div class="c_3">
-        <div class="card">
-          <div class="front-card">
-            <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="none">
-          </div>
-          <div class="back-card">
-            <h6></h6>
-          </div>
-        </div>
-      </div>
-      <div class="c_3">
-        <div class="card">
-          <div class="front-card">
-            <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="none">
-          </div>
-          <div class="back-card">
-            <h6></h6>
-          </div>
-        </div>
-      </div>
-      <div class="c_3">
-        <div class="card">
-          <div class="front-card">
-            <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="none">
-          </div>
-          <div class="back-card">
-            <h6></h6>
-          </div>
-        </div>
-      </div>
-      <div class="c_3">
-        <div class="card">
-          <div class="front-card">
-            <img src="https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg" alt="none">
-          </div>
-          <div class="back-card">
-            <h6></h6>
-          </div>
-        </div>
-      </div>
+      <cards v-for="item in cards" :key="item.id" :picture="item.picture" :keyword="item.keyword" />
 
       <v-modal name="child"
         >
@@ -81,7 +42,38 @@
 </template>
 
 <script>
+import cards from '~/components/Cards/list.vue';
+
 export default {
+  components: {
+    cards
+  },
+  data() {
+    return {
+      cards: [
+        {
+          id: 1,
+          keyword: '',
+          picture: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+        },
+        {
+          id: 2,
+          keyword: '',
+          picture: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+        },
+        {
+          id: 3,
+          keyword: '',
+          picture: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+        },
+        {
+          id: 4,
+          keyword: '',
+          picture: 'https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg'
+        },
+      ]
+    }
+  },
   validate(content) {
     return /^[0-9]{0,9}$/.test(content.params.name);
   },
