@@ -119,8 +119,11 @@ export default {
     },
     onSubmit(data) {
       axios.put(`https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/${this.$route.params.name}.json`, data)
-      .then((data) => {
-        console.log(data);
+      .then((res) => {
+        const tmp = {...res.data, id: this.$route.params.name}
+        this.$store.dispatch('storeDecks/editDeck', tmp);
+        this.closeModal('editDeck');
+        this.$router.push('/decks')
       }).catch(e => {
         console.log(e);
       })
