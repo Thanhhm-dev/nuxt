@@ -91,6 +91,10 @@ export default {
       context.error(e);
     });
   },
+  created() {
+    this.$store.dispatch('storeDecks/setDecks', this.decks);
+    console.log(this.$store.state.storeDecks.decks)
+  },
   methods: {
     openModal() {
       this.$modal.open({ name: "test" });
