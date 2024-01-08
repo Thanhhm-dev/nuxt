@@ -38,7 +38,7 @@ export default {
   },
   asyncData(context) {
     return new Promise((resolve, reject) => {
-      axios.get('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json').then(res => {
+      axios.get(process.env.baseApiUrl).then(res => {
         const decks = [];
         for (const key in res.data) {
           decks.push({...res.data[key], id: key});
@@ -65,7 +65,7 @@ export default {
       this.$modal.close({ name: "test" });
     },
     onSubmit(data) {
-      axios.post('https://nuxt-2-ddbcc-default-rtdb.asia-southeast1.firebasedatabase.app/.json', data)
+      axios.post(process.env.baseApiUrl, data)
       .then(() => {
         const tmp = [...this.$store.state.storeDecks.decks]
         tmp.push(data);
