@@ -54,7 +54,7 @@ export default {
   components: {
     DeckList
   },
-  asyncData(context) {
+  fetch(context) {
     return new Promise((resolve, reject) => {
       // eslint-disable-next-line nuxt/no-timing-in-fetch-data
       setTimeout(() => {
@@ -86,14 +86,15 @@ export default {
         reject(new Error());
       }, 1000);
     }).then(data => {
-      return data;
+      context.store.dispatch('storeDecks/setDecks', data.decks);
     }).catch((e) => {
       context.error(e);
     });
   },
-  created() {
-    this.$store.dispatch('storeDecks/setDecks', this.decks);
-    console.log(this.$store.state.storeDecks.decks)
+  computed: {
+    decks() {
+      return this.$store.state.storeDecks.decks;
+    }
   },
   methods: {
     openModal() {
