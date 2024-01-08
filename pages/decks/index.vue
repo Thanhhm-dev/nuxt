@@ -27,7 +27,7 @@
           </div>
           <div class="form_group">
             <label for="">Description</label>
-            <textarea class="form_control" name="" id="" cols="30" rows="10"></textarea>
+            <textarea class="form_control" cols="30" rows="10"></textarea>
           </div>
           <div class="form_group">
             <label for="">Thumnail</label>
@@ -52,37 +52,44 @@ import DeckList from "~/components/Decks/list.vue";
 
 export default {
   components: {
-    DeckList,
+    DeckList
   },
-  asyncData(context, callback) {
-    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
-    setTimeout(() => {
-      callback(null, {
-        decks: [
-          {
-            id: 1,
-            name: "Learn English",
-            description: "Learn English description",
-            thumbnail:
-              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-          },
-          {
-            id: 2,
-            name: "Learn English",
-            description: "Learn English description",
-            thumbnail:
-              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-          },
-          {
-            id: 3,
-            name: "Learn English",
-            description: "Learn English description",
-            thumbnail:
-              "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
-          },
-        ],
-      });
-    }, 3000);
+  asyncData(context) {
+    return new Promise((resolve, reject) => {
+      // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+      setTimeout(() => {
+        resolve({
+          decks: [
+            {
+              id: 1,
+              name: "Learn English",
+              description: "Learn English description",
+              thumbnail:
+                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+            },
+            {
+              id: 2,
+              name: "Learn English",
+              description: "Learn English description",
+              thumbnail:
+                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+            },
+            {
+              id: 3,
+              name: "Learn English",
+              description: "Learn English description",
+              thumbnail:
+                "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+            },
+          ],
+        });
+        reject(new Error());
+      }, 1000);
+    }).then(data => {
+      return data;
+    }).catch((e) => {
+      context.error(e);
+    });
   },
   methods: {
     openModal() {
